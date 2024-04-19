@@ -1,37 +1,33 @@
-# I'm not Vietnamese?
+# Note
 
-- [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/luanon404/awChromium/blob/main/README.en.md)
+- **Lag**.
+- **Cant MultiThread**.
+- Android Studio version: `Iguana | 2023.2.1 Canary 16 for Windows`.
+- Download link: [Android Studio](https://developer.android.com/studio/preview).
+- Example code: [demo](https://github.com/luanon404/awChromium/tree/main/app/src/main/java/aw/chromium/demo).
+- Current WebView version: [120.0.6076.4](https://chromium.googlesource.com/chromium/src.git/+/refs/tags/120.0.6076.4).
+- Do not modify classes or functions with the `@JNINamespace` or `@CalledByNative` annotations.
 
-# Lưu ý nè
+# Goal
 
-- **Siêu Lag**.
-- **Không thể đa luồng**.
-- Phiên bản Android Studio: `Iguana | 2023.2.1 Canary 16 for Windows`.
-- Link tải: [Android Studio](https://developer.android.com/studio/preview).
-- Code ví dụ: [demo](https://github.com/luanon404/awChromium/tree/main/app/src/main/java/aw/chromium/demo).
-- Phiên bản WebView hiện tại: [120.0.6076.4](https://chromium.googlesource.com/chromium/src.git/+/refs/tags/120.0.6076.4).
-- Đừng có đụng class hay function có `@JNINamespace` hoặc `@CalledByNative` phỏng tay đó.
+- Create `structure.json` that includes only the necessary files.
+- I'm trying to remove as many unnecessary files as possible.
+- That will minimize errors that I cannot fix it🫣.
+- “~~If there are somethings that u cant fix it, just delete it~~”
 
-# Mục tiêu
+# For developer
 
-- Tạo `structure.json` chứa chỉ những file Java cần.
-- Vẫn đang cố xóa những file không cần thiết.
-- Càng ít file càng đỡ fix bug🫣.
-- “~~Nếu không fix được thì xóa cmnr nó, khỏi fix chi cho mệt~~”
-
-# Cho ai muốn build (cực lắm)
-
-- Sài Intel Core thì sài Ubuntu.
-- Còn Ryzen Core thì sài Debian (vì Ryzen méo có wifi 😐).
-- Đọc và làm theo [cái này](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/android_build_instructions.md) trước.
-- Tới bước `gclient sync`, nếu thích đổi phiên bản thì đổi (không cũng được).
+- If you are using Intel Core then you can use Ubuntu.
+- Else if you are using Ryzen Core then you can use Debian (because Ryzen has no wifi driver 😐).
+- You can follow [this docs](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/android_build_instructions.md).
+- After running `gclient sync`, you can set chromium version.
 
     ```
     git checkout tags/120.0.6076.4
     gclient sync
     ```
 
-- Paste cái này vô `out/$abi/args.gn`:
+- And config `out/$abi/args.gn` like this:
 
     ```
     # Set build arguments here. See gn help buildargs.
@@ -64,16 +60,16 @@
     ffmpeg_branding = "Chrome"
     ```
 
-- Thắc mắc về `target_cpu` thì bấm vô [link này](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/android_build_instructions.md#figuring-out-target_cpu).
-- Sau đó mở terminal, nhập `cd chromium/src` rồi chạy `autoninja -C out/$abi -j11 webview_instrumentation_apk` để bắt đầu build.
-- Lưu ý:
-    - `$abi` đặt là gì cũng được, chạy lệnh này `gn gen out/$abi` thì nó là tên folder thui.
-    - Còn `-j11` là chạy 11 / 12 threads vì chả ai muốn PC chạy cháy máy, chuẩn không?
-    - Với cần cỡ `30GB` RAM để build nếu không muốn đang build thì bị kill vì tràn RAM.
-- Build xong thì chạy `tools/blind_copy.py` để copy shared object or layout, style, image, ...
-- Xong chạy `tools/path2java.py` để lấy chỉ những file Java cần thiết.
+- You can find the available `target_cpu` information in [this link](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/android_build_instructions.md#figuring-out-target_cpu).
+- Then open terminal and `cd chromium/src` then run `autoninja -C out/$abi -j11 webview_instrumentation_apk` to start build.
+- Note:
+    - `$abi` can be any name you prefer when running `gn gen out/$abi`, it's just the folder name.
+    - The option `-j11` means that only use 11 / 12 threads because nobody wants their PC running at 100% CPU usage, yet?
+    - Also, you'll need approximately `30GB` of RAM for a successful build if you want to avoid it being terminated due to running out of RAM.
+- After build successfully, you can run `tools/blind_copy.py` to copy resources like shared object or layout, style, image, ...
+- Then run `tools/path2java.py` to take only necessary Java files.
 
-# Tham khảo
+# References
 
 - [Chromium docs](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/android_build_instructions.md)
 - [ridi/chromium-aw](https://github.com/ridi/chromium-aw)
