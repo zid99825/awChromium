@@ -1,4 +1,4 @@
-package com.luanon.webview
+package com.dragontec.gref.webview
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -87,15 +87,13 @@ class AwChromium(awContext: Activity, allowHardwareAcceleration: Boolean = true)
             AwShellResourceProvider.registerResources(context)
             AwBrowserProcess.loadLibrary(null)
             AwBrowserProcess.start()
-            /** Initialize draw function */
-            val supportedModels: Array<String?> = arrayOf("Pixel 6", "Pixel 6 Pro")
-            val useVulkan = supportedModels.contains(Build.MODEL)
-            installDrawFnFunctionTable(useVulkan)
+            installDrawFnFunctionTable(false)
         }
 
         fun initializeBase(context: Context?) {
             ContextUtils.initApplicationContext(context)
             PathUtils.setPrivateDataDirectorySuffix("webview", "WebView")
+            CommandLine.initFromFile("/data/local/tmp/android-webview-command-line")
             ResourceBundle.setAvailablePakLocales(AwLocaleConfig.getWebViewSupportedPakLocales())
         }
 

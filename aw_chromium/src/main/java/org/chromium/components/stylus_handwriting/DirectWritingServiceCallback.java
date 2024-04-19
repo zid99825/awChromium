@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.directwriting.IDirectWritingServiceCallback;
 
 import androidx.annotation.BinderThread;
 
@@ -34,7 +35,7 @@ import org.chromium.mojo_base.mojom.String16;
  * when requested on the {@link BinderThread}.
  */
 class DirectWritingServiceCallback
-        extends com.luanon.android.widget.directwriting.IDirectWritingServiceCallback.Stub {
+        extends IDirectWritingServiceCallback.Stub {
     static final String BUNDLE_KEY_SHOW_KEYBOARD = "showKeyboard";
     private static final String TAG = "DWCallbackImpl";
 

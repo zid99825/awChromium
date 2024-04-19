@@ -7,7 +7,7 @@ package org.chromium.ui.base;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import com.luanon.android.view.AttachedSurfaceControl;
+import android.view.AttachedSurfaceControl;
 import android.view.FrameMetrics;
 import android.view.SurfaceControl;
 import android.view.Window;
@@ -148,5 +148,10 @@ final class OverlayTransformApiHelper
                 // INVALID makes WindowAndroid fallback to display rotation
                 return OverlayTransform.INVALID;
         }
+    }
+
+    @Override
+    public void onBufferTransformHintChanged(int hint) {
+
     }
 }

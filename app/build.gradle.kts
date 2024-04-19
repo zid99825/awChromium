@@ -10,17 +10,16 @@ android {
 
     defaultConfig {
         applicationId = "aw.chromium.demo"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 34
         versionCode = 120
         versionName = "120.0.6076.4"
-        multiDexEnabled = false
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,6 +50,6 @@ dependencies {
     implementation(project(":aw_chromium"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 }

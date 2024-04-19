@@ -8,8 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 24
-        multiDexEnabled = false
+        minSdk = 31
         consumerProguardFiles("consumer-rules.pro")
         ndk {
             abiFilters += listOf("x86", "x86_64", "armeabi-v7a", "arm64-v8a")
@@ -27,12 +26,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     buildFeatures {
@@ -60,7 +59,7 @@ dependencies {
     implementation("androidx.privacysandbox.ads:ads-adservices-java:1.1.0-beta03")
     implementation("androidx.privacysandbox.ads:ads-adservices:1.1.0-beta03")
     implementation("com.google.android.material:material:1.10.0")
-    implementation("com.google.errorprone:error_prone_annotations:2.23.0")
-    implementation("com.google.guava:guava:32.1.3-jre")
     implementation("androidx.concurrent:concurrent-futures:1.1.0")
+    implementation("androidx.interpolator:interpolator:1.0.0")
+    implementation("androidx.javascriptengine:javascriptengine:1.0.0-beta01")
 }

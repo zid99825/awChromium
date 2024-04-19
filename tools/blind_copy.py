@@ -262,7 +262,7 @@ if __name__ == "__main__":
     prefix = "/"
     utils = Utils(prefix)
     apktool_executable_path = "apktool"
-    dex2jar_executable_path = "d2j-dex2jar.sh"
+    dex2jar_executable_path =  utils.join(os.environ["HOME"],"dex-tools-v2.4","d2j-dex2jar.sh")
     base_output_path = "WebViewInstrumentation"
     zip_filename = base_output_path + ".zip"
     chromium_src_path = utils.join(os.environ["HOME"], "chromium", "src")

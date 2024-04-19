@@ -11,7 +11,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import androidx.core.view.animation.PathInterpolatorCompat;
-import com.luanon.androidx.interpolator.view.animation.FastOutExtraSlowInInterpolator;
+import androidx.interpolator.view.animation.FastOutExtraSlowInInterpolator;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;

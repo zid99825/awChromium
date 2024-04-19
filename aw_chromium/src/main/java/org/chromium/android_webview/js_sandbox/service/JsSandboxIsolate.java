@@ -4,11 +4,12 @@
 
 package org.chromium.android_webview.js_sandbox.service;
 
+import android.annotation.SuppressLint;
 import android.content.res.AssetFileDescriptor;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 
-import com.luanon.androidx.javascriptengine.common.Utils;
+import androidx.javascriptengine.common.Utils;
 
 import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
@@ -71,6 +72,7 @@ public class JsSandboxIsolate extends IJsSandboxIsolate.Stub {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void evaluateJavascriptWithFd(
             AssetFileDescriptor afd, IJsSandboxIsolateSyncCallback callback) {
@@ -79,7 +81,7 @@ public class JsSandboxIsolate extends IJsSandboxIsolate.Stub {
                 throw new IllegalStateException("evaluateJavascript() called after close()");
             }
 
-            Utils.checkAssetFileDescriptor(afd, /*allowUnknownLength=*/true);
+            Utils.checkAssetFileDescriptor(afd, true);
             if (afd.getLength() > Integer.MAX_VALUE) {
                 throw new IllegalArgumentException("Evaluation code larger than "
                         + Integer.MAX_VALUE + " bytes not supported");
@@ -101,6 +103,7 @@ public class JsSandboxIsolate extends IJsSandboxIsolate.Stub {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean provideNamedData(String name, AssetFileDescriptor afd) {
         synchronized (mLock) {

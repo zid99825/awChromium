@@ -34,22 +34,23 @@ def update_structure(structure: dict, file_name_check: str, target: str, print_d
 if __name__ == "__main__":
     prefix = "/"
     utils = Utils(prefix)
+    abi = "x86"
     chromium_src_path = utils.join(os.environ["HOME"], "chromium", "src")
 
     data = json.load(open("structure.json"))
     for file in Path(chromium_src_path).glob("**/*.java"):
         print("Updating...", end="\r")
         if utils.join(chromium_src_path, "out") in str(file):
-            if prefix + "arm64" + prefix not in str(file):
-                # Only copy from arm64
+            if prefix + abi + prefix not in str(file):
+                # Only copy from target abi
                 continue
-        data = update_structure(data, file.name, str(file))
+        data = update_structure(data, file.name, str(file), override = True)
 
     # Hook
-    data = update_structure(data, "ProductConfig.java", utils.join(chromium_src_path, "out/arm64/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/chromium/android_webview/ProductConfig.java"), override=True)
-    data = update_structure(data, "BuildConfig.java", utils.join(chromium_src_path, "out/arm64/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/chromium/build/BuildConfig.java"), override=True)
-    data = update_structure(data, "NativeLibraries.java",  utils.join(chromium_src_path, "out/arm64/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/chromium/build/NativeLibraries.java"), override=True)
-    data = update_structure(data, "GEN_JNI.java", utils.join(chromium_src_path, "out/arm64/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/jni_zero/GEN_JNI.java"), override=True)
+    data = update_structure(data, "ProductConfig.java", utils.join(chromium_src_path, "out/"+abi+"/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/chromium/android_webview/ProductConfig.java"), override=True)
+    data = update_structure(data, "BuildConfig.java", utils.join(chromium_src_path, "out/"+abi+"/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/chromium/build/BuildConfig.java"), override=True)
+    data = update_structure(data, "NativeLibraries.java",  utils.join(chromium_src_path, "out/"+abi+"/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/chromium/build/NativeLibraries.java"), override=True)
+    data = update_structure(data, "GEN_JNI.java", utils.join(chromium_src_path, "out/"+abi+"/gen/android_webview/test/webview_instrumentation_apk/generated_java/input_srcjars/org/jni_zero/GEN_JNI.java"), override=True)
 
-    update_structure(data, None, None, print_dumplicate=True)
+    update_structure(data, None, None, print_dumplicate=True, override = True)
     json.dump(data, open("structure.json", "w"), indent=4)

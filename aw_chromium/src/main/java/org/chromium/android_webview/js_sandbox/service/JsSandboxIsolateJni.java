@@ -10,7 +10,6 @@ import org.jni_zero.GEN_JNI;
 import android.content.res.AssetFileDescriptor;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
-import com.luanon.androidx.javascriptengine.common.Utils;
 import org.jni_zero.CalledByNative;
 import org.jni_zero.JNINamespace;
 import org.jni_zero.NativeMethods;
