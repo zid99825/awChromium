@@ -10,36 +10,36 @@ import org.chromium.android_webview.JsResultReceiver
 import org.chromium.android_webview.permission.AwPermissionRequest
 import org.chromium.base.Callback
 
-class AwChromeClient {
-    fun getDefaultVideoPoster(view: AwWebView): Bitmap? {
+open class AwChromeClient {
+    open fun getDefaultVideoPoster(view: AwWebView): Bitmap? {
         return null
     }
 
-    fun getVideoLoadingProgressView(view: AwWebView): View? {
+    open fun getVideoLoadingProgressView(view: AwWebView): View? {
         return null
     }
 
-    fun getVisitedHistory(view: AwWebView, callback: Callback<Array<String>>) {
+    open fun getVisitedHistory(view: AwWebView, callback: Callback<Array<String>>) {
 
     }
 
-    fun onCloseWindow(view: AwWebView) {
+    open fun onCloseWindow(view: AwWebView) {
 
     }
 
-    fun onConsoleMessage(view: AwWebView, consoleMessage: AwConsoleMessage): Boolean {
+    open fun onConsoleMessage(view: AwWebView, consoleMessage: AwConsoleMessage): Boolean {
         return false
     }
 
-    fun onCreateWindow(view: AwWebView, isDialog: Boolean, isUserGesture: Boolean): Boolean {
+    open fun onCreateWindow(view: AwWebView, isDialog: Boolean, isUserGesture: Boolean): Boolean {
         return false
     }
 
-    fun onGeolocationPermissionsHidePrompt(view: AwWebView) {
+    open fun onGeolocationPermissionsHidePrompt(view: AwWebView) {
 
     }
 
-    fun onGeolocationPermissionsShowPrompt(
+    open fun onGeolocationPermissionsShowPrompt(
         view: AwWebView,
         origin: String,
         callback: AwGeolocationPermissions.Callback
@@ -47,13 +47,13 @@ class AwChromeClient {
 
     }
 
-    fun onHideCustomView(view: AwWebView) {}
+    open fun onHideCustomView(view: AwWebView) {}
 
-    fun handleJsAlert(view: AwWebView, url: String, message: String, receiver: JsResultReceiver) {
+    open fun handleJsAlert(view: AwWebView, url: String, message: String, receiver: JsResultReceiver) {
         receiver.cancel()
     }
 
-    fun handleJsBeforeUnload(
+    open fun handleJsBeforeUnload(
         view: AwWebView,
         url: String,
         message: String,
@@ -62,11 +62,11 @@ class AwChromeClient {
         receiver.confirm()
     }
 
-    fun handleJsConfirm(view: AwWebView, url: String, message: String, receiver: JsResultReceiver) {
+    open fun handleJsConfirm(view: AwWebView, url: String, message: String, receiver: JsResultReceiver) {
         receiver.cancel()
     }
 
-    fun handleJsPrompt(
+    open fun handleJsPrompt(
         view: AwWebView,
         url: String,
         message: String,
@@ -76,25 +76,25 @@ class AwChromeClient {
         receiver.cancel()
     }
 
-    fun onPermissionRequest(view: AwWebView, awPermissionRequest: AwPermissionRequest) {}
+    open fun onPermissionRequest(view: AwWebView, awPermissionRequest: AwPermissionRequest) {}
 
-    fun onPermissionRequestCanceled(view: AwWebView, awPermissionRequest: AwPermissionRequest) {}
+    open fun onPermissionRequestCanceled(view: AwWebView, awPermissionRequest: AwPermissionRequest) {}
 
-    fun onProgressChanged(view: AwWebView, progress: Int) {}
+    open fun onProgressChanged(view: AwWebView, progress: Int) {}
 
-    fun onReceivedIcon(view: AwWebView, bitmap: Bitmap?) {}
+    open fun onReceivedIcon(view: AwWebView, bitmap: Bitmap?) {}
 
-    fun onReceivedTitle(view: AwWebView, title: String) {}
+    open fun onReceivedTitle(view: AwWebView, title: String) {}
 
-    fun onReceivedTouchIconUrl(view: AwWebView, url: String, precomposed: Boolean) {}
+    open fun onReceivedTouchIconUrl(view: AwWebView, url: String, precomposed: Boolean) {}
 
-    fun onRequestFocus(view: AwWebView) {}
+    open fun onRequestFocus(view: AwWebView) {}
 
-    fun onShowCustomView(view: AwWebView, v: View, callback: AwContentsClient.CustomViewCallback) {
+    open fun onShowCustomView(view: AwWebView, v: View, callback: AwContentsClient.CustomViewCallback) {
 
     }
 
-    fun showFileChooser(
+    open fun showFileChooser(
         view: AwWebView,
         uploadFilePathsCallback: Callback<Array<String>>,
         fileChooserParams: AwContentsClient.FileChooserParamsImpl

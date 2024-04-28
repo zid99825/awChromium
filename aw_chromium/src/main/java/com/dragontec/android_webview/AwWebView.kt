@@ -1,16 +1,20 @@
 package com.dragontec.android_webview
 
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import android.net.Uri
 import android.net.http.SslCertificate
 import android.net.http.SslError
+import android.os.Bundle
 import android.os.Message
 import android.util.SparseArray
 import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.PointerIcon
 import android.view.View
+import android.view.ViewGroup
 import android.view.autofill.AutofillValue
 import android.view.textclassifier.TextClassifier
 import org.chromium.android_webview.AwBrowserContext
@@ -19,6 +23,7 @@ import org.chromium.android_webview.AwConsoleMessage
 import org.chromium.android_webview.AwContents
 import org.chromium.android_webview.AwContentsClientBridge
 import org.chromium.android_webview.AwContentsStatics
+import org.chromium.android_webview.AwDevToolsServer
 import org.chromium.android_webview.AwGeolocationPermissions
 import org.chromium.android_webview.AwHttpAuthHandler
 import org.chromium.android_webview.AwLocaleConfig
@@ -38,15 +43,17 @@ import org.chromium.base.CommandLine
 import org.chromium.base.ContextUtils
 import org.chromium.base.PathUtils
 import org.chromium.components.embedder_support.util.WebResourceResponseInfo
+import org.chromium.content_public.browser.NavigationHistory
 import org.chromium.ui.base.ResourceBundle
 import java.security.Principal
 
-class AwWebView(val context: Context) : AwTestContainerView(context, false) {
+open class AwWebView(context: Context) : AwTestContainerView(context, false) {
 
     companion object {
         private const val TAG = "AwWebView"
 
         private var isInited = false
+        private val awDevToolsServer = AwDevToolsServer()
         fun initialize(context: Context) {
             if (!isInited) {
                 isInited = true
@@ -75,6 +82,10 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
 
         fun getSafeBrowsingPrivacyPolicyUrl(): Uri {
             return AwContentsStatics.getSafeBrowsingPrivacyPolicyUrl()
+        }
+
+        fun setRemoteDebuggingEnabled(enable: Boolean) {
+            awDevToolsServer.setRemoteDebuggingEnabled(enable)
         }
     }
 
@@ -211,11 +222,9 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
 
         override fun onRenderProcessGone(detail: AwRenderProcessGoneDetail): Boolean {
             val client = webViewClient
-            if (client != null) {
-                return client.onRenderProcessGone(this@AwWebView, detail)
-            } else {
-                return super.onRenderProcessGone(detail)
-            }
+            return client?.onRenderProcessGone(this@AwWebView, detail) ?: super.onRenderProcessGone(
+                detail
+            )
         }
 
         override fun onSafeBrowsingHit(
@@ -251,46 +260,40 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
 
         override fun shouldInterceptRequest(request: AwWebResourceRequest): WebResourceResponseInfo? {
             val client = webViewClient
-            if (client != null) {
-                return client.shouldInterceptRequest(this@AwWebView, request)
+            return if (client != null) {
+                client.shouldInterceptRequest(this@AwWebView, request)
             } else {
-                return super.shouldInterceptRequest(request)
+                super.shouldInterceptRequest(request)
             }
         }
 
         override fun shouldOverrideKeyEvent(event: KeyEvent): Boolean {
             val client = webViewClient
-            if (client != null) {
-                return client.shouldOverrideKeyEvent(this@AwWebView, event)
-            } else {
-                return super.shouldOverrideKeyEvent(event)
-            }
+            return client?.shouldOverrideKeyEvent(this@AwWebView, event)
+                ?: super.shouldOverrideKeyEvent(event)
         }
 
         override fun shouldOverrideUrlLoading(request: AwWebResourceRequest): Boolean {
             val client = webViewClient
-            if (client != null) {
-                return client.shouldOverrideUrlLoading(this@AwWebView, request)
-            } else {
-                return super.shouldOverrideUrlLoading(request)
-            }
+            return client?.shouldOverrideUrlLoading(this@AwWebView, request)
+                ?: super.shouldOverrideUrlLoading(request)
         }
 
         override fun getDefaultVideoPoster(): Bitmap? {
             val client = webChromeClient
-            if (client != null) {
-                return client.getDefaultVideoPoster(this@AwWebView)
+            return if (client != null) {
+                client.getDefaultVideoPoster(this@AwWebView)
             } else {
-                return super.getDefaultVideoPoster()
+                super.getDefaultVideoPoster()
             }
         }
 
         override fun getVideoLoadingProgressView(): View? {
             val client = webChromeClient
-            if (client != null) {
-                return client.getVideoLoadingProgressView(this@AwWebView)
+            return if (client != null) {
+                client.getVideoLoadingProgressView(this@AwWebView)
             } else {
-                return super.getVideoLoadingProgressView()
+                super.getVideoLoadingProgressView()
             }
         }
 
@@ -314,20 +317,14 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
 
         override fun onConsoleMessage(consoleMessage: AwConsoleMessage): Boolean {
             val client = webChromeClient
-            if (client != null) {
-                return client.onConsoleMessage(this@AwWebView, consoleMessage)
-            } else {
-                return super.onConsoleMessage(consoleMessage)
-            }
+            return client?.onConsoleMessage(this@AwWebView, consoleMessage)
+                ?: super.onConsoleMessage(consoleMessage)
         }
 
         override fun onCreateWindow(isDialog: Boolean, isUserGesture: Boolean): Boolean {
             val client = webChromeClient
-            if (client != null) {
-                return client.onCreateWindow(this@AwWebView, isDialog, isUserGesture)
-            } else {
-                return super.onCreateWindow(isDialog, isUserGesture)
-            }
+            return client?.onCreateWindow(this@AwWebView, isDialog, isUserGesture)
+                ?: super.onCreateWindow(isDialog, isUserGesture)
         }
 
         override fun onGeolocationPermissionsHidePrompt() {
@@ -519,7 +516,7 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
         )
     }
 
-    fun addJavascriptInterface(obj: Any, name: String) {
+    open fun addJavascriptInterface(obj: Any, name: String) {
         awContents?.addJavascriptInterface(obj, name)
     }
 
@@ -527,119 +524,288 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
         awContents?.autofill(values)
     }
 
-    fun canGoBack(): Boolean {
+    open fun canGoBack(): Boolean {
         return awContents?.canGoBack() ?: false
     }
 
-    fun canGoBackOrForward(step: Int): Boolean {
+    open fun canGoBackOrForward(step: Int): Boolean {
         return awContents?.canGoBackOrForward(step) ?: false
     }
 
-    fun canGoForward(): Boolean {
+    open fun canGoForward(): Boolean {
         return awContents?.canGoForward() ?: false
     }
 
-    fun canZoomIn(): Boolean {
+    open fun canZoomIn(): Boolean {
         return awContents?.canZoomIn() ?: false
     }
 
-    fun canZoomOut(): Boolean {
+    open fun canZoomOut(): Boolean {
         return awContents?.canZoomOut() ?: false
     }
 
-    fun clearCache(includeDiskFiles: Boolean) {
+    open fun clearCache(includeDiskFiles: Boolean) {
         awContents?.clearCache(includeDiskFiles)
     }
 
-    fun clearFromData() {
+    open fun clearFromData() {
         awBrowserContext.clearFormData()
     }
 
-    fun clearHistory() {
+    open fun clearHistory() {
         awContents?.clearHistory()
     }
 
-    fun clearMatches() {
+    open fun clearMatches() {
         awContents?.clearMatches()
     }
 
-    fun clearSslPreferences() {
+    open fun clearSslPreferences() {
         awContents?.clearSslPreferences()
     }
 
-    fun documentHasImages(message: Message) {
+    open fun documentHasImages(message: Message) {
         awContents?.documentHasImages(message)
     }
 
-    fun evaluateJavascript(script: String, resultCallback: Callback<String>) {
+    open fun evaluateJavascript(script: String, resultCallback: Callback<String>) {
         awContents?.evaluateJavaScript(script, resultCallback)
     }
 
-    fun findAllAsync(find: String) {
+    open fun findAllAsync(find: String) {
         awContents?.findAllAsync(find)
     }
 
-    fun findNext(forward: Boolean) {
+    open fun findNext(forward: Boolean) {
         awContents?.findNext(forward)
     }
 
-    fun flingScroll(vx: Int, vy: Int) {
+    open fun flingScroll(vx: Int, vy: Int) {
         awContents?.flingScroll(vx, vy)
     }
 
-    fun getCertificate(): SslCertificate? {
+    open fun getCertificate(): SslCertificate? {
         return awContents?.certificate
     }
 
-    fun getContentHeight(): Int {
+    open fun getContentHeight(): Int {
         return awContents?.contentHeightCss ?: 0
     }
 
-    fun getFavicon(): Bitmap? {
+    open fun getFavicon(): Bitmap? {
         return awContents?.favicon
     }
 
-    fun getOriginalUrl(): String? {
+    open fun getOriginalUrl(): String? {
         return awContents?.originalUrl
     }
 
-    fun getProgress(): Int {
+    open fun getProgress(): Int {
         return awContents?.mostRecentProgress ?: 0
     }
 
-    fun getRendererRequestedPriority(): Int {
+    open fun getRendererRequestedPriority(): Int {
         return awContents?.rendererRequestedPriority ?: RendererPriority.WAIVED
     }
 
-    fun getSettings(): AwSettings? {
+    open fun getSettings(): AwSettings? {
         return awContents?.settings
     }
 
-    fun getTextClassifier(): TextClassifier? {
+    open fun getTextClassifier(): TextClassifier? {
         return awContents?.textClassifier
     }
 
-    fun getTitle(): String? {
+    open fun getTitle(): String? {
         return awContents?.toString()
     }
 
-    fun getUrl(): String? {
+    open fun getUrl(): String? {
         return awContents?.url?.spec
     }
 
-    fun stopLoading() {
+    open fun goBack() {
+        awContents?.goBack()
+    }
+
+    open fun goBackOrForward(steps: Int) {
+        awContents?.goBackOrForward(steps)
+    }
+
+    open fun goForward() {
+        awContents?.goForward()
+    }
+
+    open fun invokeZoomPicker() {
+        awContents?.invokeZoomPicker()
+    }
+
+    open fun loadData(data: String, mimeType: String?, encoding: String?) {
+        awContents?.loadData(data, mimeType, encoding)
+    }
+
+    open fun loadDataWithBaseURL(
+        baseUrl: String?,
+        data: String,
+        mimeType: String?,
+        encoding: String?,
+        historyUrl: String?
+    ) {
+        awContents?.loadDataWithBaseURL(baseUrl, data, mimeType, encoding, historyUrl)
+    }
+
+    open fun loadUrl(url: String) {
+        awContents?.loadUrl(url)
+    }
+
+    open fun loadUrl(url: String, additionalHttpHeaders: Map<String, String>) {
+        awContents?.loadUrl(url, additionalHttpHeaders)
+    }
+
+    override fun onCheckIsTextEditor(): Boolean {
+        return awContents?.onCheckIsTextEditor() ?: false
+    }
+
+    override fun onFinishTemporaryDetach() {
+        super.onFinishTemporaryDetach()
+        awContents?.onFinishTemporaryDetach()
+    }
+
+    open fun onPause() {
+        awContents?.onPause()
+    }
+
+    override fun onResolvePointerIcon(event: MotionEvent?, pointerIndex: Int): PointerIcon {
+        return awContents?.onResolvePointerIcon(event, pointerIndex) ?: super.onResolvePointerIcon(
+            event,
+            pointerIndex
+        )
+    }
+
+    open fun onResume() {
+        awContents?.onResume()
+    }
+
+    override fun onStartTemporaryDetach() {
+        awContents?.onStartTemporaryDetach()
+        super.onStartTemporaryDetach()
+    }
+
+    override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
+        super.onWindowFocusChanged(hasWindowFocus)
+        awContents?.onWindowFocusChanged(hasWindowFocus)
+    }
+
+    open fun pageDown(bottom: Boolean): Boolean {
+        return awContents?.pageDown(bottom) ?: false
+    }
+
+    open fun pageUp(top: Boolean): Boolean {
+        return awContents?.pageUp(top) ?: false
+    }
+
+    open fun pauseTimers() {
+        awContents?.pauseTimers()
+    }
+
+    open fun postUrl(url: String, postData: ByteArray) {
+        awContents?.postUrl(url, postData)
+    }
+
+    open fun reload() {
+        awContents?.reload()
+    }
+
+    open fun removeJavascriptInterface(name: String) {
+        awContents?.removeJavascriptInterface(name)
+    }
+
+    override fun requestChildRectangleOnScreen(
+        child: View,
+        rectangle: Rect,
+        immediate: Boolean
+    ): Boolean {
+        return awContents?.requestChildRectangleOnScreen(child, rectangle, immediate)
+            ?: super.requestChildRectangleOnScreen(child, rectangle, immediate)
+    }
+
+    open fun requestFocusNodeHref(hrefMsg: Message) {
+        awContents?.requestFocusNodeHref(hrefMsg)
+    }
+
+    open fun requestImageRef(msg: Message) {
+        awContents?.requestImageRef(msg)
+    }
+
+    open fun restoreState(inState: Bundle): Boolean {
+        return awContents?.restoreState(inState) ?: false
+    }
+
+    open fun resumeTimers() {
+        awContents?.resumeTimers()
+    }
+
+    open fun saveState(outState: Bundle): Boolean {
+        return awContents?.saveState(outState) ?: false
+    }
+
+    open fun saveWebArchive(basename: String, autoname: Boolean, callback: Callback<String>) {
+        awContents?.saveWebArchive(basename, autoname, callback)
+    }
+
+    override fun setBackgroundColor(color: Int) {
+        super.setBackgroundColor(color)
+        awContents?.setBackgroundColor(color)
+    }
+
+    override fun setLayerType(layerType: Int, paint: Paint?) {
+        super.setLayerType(layerType, paint)
+        awContents?.setLayerType(layerType, paint)
+    }
+
+    override fun setLayoutParams(params: ViewGroup.LayoutParams?) {
+        super.setLayoutParams(params)
+        awContents?.setLayoutParams(params)
+    }
+
+    open fun setNetworkAvailable(networkUp: Boolean) {
+        awContents?.setNetworkAvailable(networkUp)
+    }
+
+    override fun setOverScrollMode(overScrollMode: Int) {
+        super.setOverScrollMode(overScrollMode)
+        awContents?.setOverScrollMode(overScrollMode)
+    }
+
+    open fun setRendererPriorityPolicy(
+        rendererRequestedPriority: Int,
+        waivedWhenNotVisible: Boolean
+    ) {
+        awContents?.setRendererPriorityPolicy(rendererRequestedPriority, waivedWhenNotVisible)
+    }
+
+    override fun setScrollBarStyle(style: Int) {
+        super.setScrollBarStyle(style)
+        awContents?.setScrollBarStyle(style)
+    }
+
+    open fun setTextClassifier(textClassifier: TextClassifier) {
+        awContents?.textClassifier = textClassifier
+    }
+
+    open fun stopLoading() {
         awContents?.stopLoading()
     }
 
-    fun zoomBy(zoomFactor: Float) {
+    open fun zoomBy(zoomFactor: Float) {
         awContents?.zoomBy(zoomFactor)
     }
 
-    fun zoomIn() {
+    open fun zoomIn() {
         awContents?.zoomIn()
     }
 
-    fun zoomOut() {
+    open fun zoomOut() {
         awContents?.zoomOut()
     }
 
@@ -678,5 +844,12 @@ class AwWebView(val context: Context) : AwTestContainerView(context, false) {
         return super.computeVerticalScrollRange()
     }
 
+    open fun getNavigationHistory(): NavigationHistory? {
+        return awContents?.navigationHistory
+    }
+
+    open fun requestChildFocus() {
+        awContents?.requestFocus()
+    }
 
 }

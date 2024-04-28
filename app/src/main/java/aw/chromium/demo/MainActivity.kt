@@ -1,20 +1,18 @@
 package aw.chromium.demo
 
+import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
-import androidx.appcompat.widget.AppCompatEditText
+import cn.com.dragontec.dtv4k.ui.aribh5.AribH5Browser
+import cn.com.dragontec.dtv4k.ui.aribh5.AribH5Browser.H5View
 import com.dragontec.gref.webview.AwChromium
 import com.dragontec.gref.webview.AwChromiumClient
 import org.chromium.android_webview.AwRenderProcessGoneDetail
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
     private lateinit var awChromium: AwChromium
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
         awContainerView.addView(awChromium)
 
-        awChromium.awContents.loadUrl("http://hc.nhk.or.jp/hc-home/index.html")
+        awChromium.awContents.loadUrl("http://www.google.com")
 
     }
 
