@@ -9,7 +9,7 @@ package org.jni_zero;
 // Please do not change its content.
 
 public class GEN_JNI {
-    public static final boolean TESTING_ENABLED = true;
+    public static final boolean TESTING_ENABLED = false;
     public static final boolean REQUIRE_MOCK = false;
 
 

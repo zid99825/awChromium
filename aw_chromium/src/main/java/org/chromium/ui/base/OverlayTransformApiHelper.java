@@ -49,7 +49,7 @@ final class OverlayTransformApiHelper
     private void addOnBufferTransformHintChangedListener() {
         Window window = mWindow.get();
         if (window == null) return;
-        AttachedSurfaceControl surfacecontrol = (AttachedSurfaceControl) window.getRootSurfaceControl();
+        AttachedSurfaceControl surfacecontrol = window.getRootSurfaceControl();
         if (surfacecontrol == null) {
             // If AttachedSurfaceControl is not available yet, wait until it's ready and set the
             // listener.
@@ -59,11 +59,16 @@ final class OverlayTransformApiHelper
         }
     }
 
+    @Override
+    public void onBufferTransformHintChanged(int hint) {
+        mWindowAndroid.onOverlayTransformUpdated();
+    }
+
     private void doAddOnBufferTransformHintChangedListener() {
         if (mBufferTransformListenerAdded) return;
         Window window = mWindow.get();
         if (window == null) return;
-        AttachedSurfaceControl surfacecontrol = (AttachedSurfaceControl) window.getRootSurfaceControl();
+        AttachedSurfaceControl surfacecontrol = window.getRootSurfaceControl();
         if (surfacecontrol != null) {
             surfacecontrol.addOnBufferTransformHintChangedListener(this);
             mBufferTransformListenerAdded = true;
@@ -75,7 +80,7 @@ final class OverlayTransformApiHelper
 
         Window window = mWindow.get();
         if (window == null) return;
-        AttachedSurfaceControl surfacecontrol = (AttachedSurfaceControl) window.getRootSurfaceControl();
+        AttachedSurfaceControl surfacecontrol = window.getRootSurfaceControl();
         if (surfacecontrol != null) {
             surfacecontrol.removeOnBufferTransformHintChangedListener(this);
             mBufferTransformListenerAdded = false;
@@ -85,7 +90,7 @@ final class OverlayTransformApiHelper
     @Override
     public void onFrameMetricsAvailable(Window window, FrameMetrics frameMetrics, int dropCount) {
         // AttachedSurfaceControl is available after setContentView is called and 1st draw happen.
-        AttachedSurfaceControl surfaceControl = (AttachedSurfaceControl) window.getRootSurfaceControl();
+        AttachedSurfaceControl surfaceControl = window.getRootSurfaceControl();
         if (surfaceControl != null) {
             removeOnFrameMetricsAvailableListener();
             doAddOnBufferTransformHintChangedListener();
@@ -112,7 +117,7 @@ final class OverlayTransformApiHelper
     int getOverlayTransform() {
         Window window = mWindow.get();
         if (window == null) return OverlayTransform.INVALID;
-        AttachedSurfaceControl surfacecontrol = (AttachedSurfaceControl) window.getRootSurfaceControl();
+        AttachedSurfaceControl surfacecontrol = window.getRootSurfaceControl();
         if (surfacecontrol == null) {
             return OverlayTransform.INVALID;
         }
@@ -148,10 +153,5 @@ final class OverlayTransformApiHelper
                 // INVALID makes WindowAndroid fallback to display rotation
                 return OverlayTransform.INVALID;
         }
-    }
-
-    @Override
-    public void onBufferTransformHintChanged(int hint) {
-
     }
 }

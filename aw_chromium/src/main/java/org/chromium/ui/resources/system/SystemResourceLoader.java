@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.system;
+package org.chromium.android_webview.shell.Resources.system;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,10 +10,10 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.SystemUIResourceType;
-import org.chromium.ui.resources.async.AsyncPreloadResourceLoader;
-import org.chromium.ui.resources.statics.StaticResource;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.SystemUIResourceType;
+import org.chromium.android_webview.shell.Resources.async.AsyncPreloadResourceLoader;
+import org.chromium.android_webview.shell.Resources.statics.StaticResource;
 
 /**
  * Handles loading system specific resources like overscroll and edge glows.

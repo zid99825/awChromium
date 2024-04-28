@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.async;
+package org.chromium.android_webview.shell.Resources.async;
 
 import android.util.SparseArray;
 
@@ -11,8 +11,8 @@ import org.chromium.base.task.AsyncTask;
 import org.chromium.base.task.PostTask;
 import org.chromium.base.task.TaskRunner;
 import org.chromium.base.task.TaskTraits;
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.ResourceLoader;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.ResourceLoader;
 
 import java.util.concurrent.ExecutionException;
 

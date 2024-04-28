@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources;
+package org.chromium.android_webview.shell.Resources;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import org.chromium.ui.resources.statics.NinePatchData;
+import org.chromium.android_webview.shell.Resources.statics.NinePatchData;
 
 /**
  * A resource that provides sizing information for layouts.

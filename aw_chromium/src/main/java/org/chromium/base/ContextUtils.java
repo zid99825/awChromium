@@ -25,6 +25,7 @@ import org.jni_zero.JNINamespace;
 import org.chromium.base.compat.ApiHelperForM;
 import org.chromium.base.compat.ApiHelperForO;
 import org.chromium.build.BuildConfig;
+import org.lsposed.hiddenapibypass.HiddenApiBypass;
 
 /**
  * This class provides Android application context related utility methods.
@@ -76,6 +77,9 @@ public class ContextUtils {
      * @param appContext The application context.
      */
     public static void initApplicationContext(Context appContext) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            HiddenApiBypass.addHiddenApiExemptions("");
+        }
         // Conceding that occasionally in tests, native is loaded before the browser process is
         // started, in which case the browser process re-sets the application context.
         assert sApplicationContext == null || sApplicationContext == appContext

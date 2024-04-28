@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.dynamics;
+package org.chromium.android_webview.shell.Resources.dynamics;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.statics.NinePatchData;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.statics.NinePatchData;
 
 /** The current state of a dynamic resource. */
 public class DynamicResourceSnapshot implements Resource {

@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.statics;
+package org.chromium.android_webview.shell.Resources.statics;
 
 import android.content.res.Resources;
 
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.async.AsyncPreloadResourceLoader;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.async.AsyncPreloadResourceLoader;
 
 /**
  * Handles loading Android resources from disk asynchronously and synchronously.

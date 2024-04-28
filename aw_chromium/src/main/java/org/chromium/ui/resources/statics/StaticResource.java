@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.statics;
+package org.chromium.android_webview.shell.Resources.statics;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,8 +12,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 import org.chromium.base.ApiCompatibilityUtils;
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.ResourceFactory;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.ResourceFactory;
 
 /**
  * A representation of a static resource and all related information for drawing it.  In general

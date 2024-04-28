@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.dynamics;
+package org.chromium.android_webview.shell.Resources.dynamics;
 
 import org.chromium.base.Callback;
-import org.chromium.ui.resources.Resource;
+import org.chromium.android_webview.shell.Resources.Resource;
 
 /**
  * A representation of a dynamic resource. The contents may change from frame to frame. It should be

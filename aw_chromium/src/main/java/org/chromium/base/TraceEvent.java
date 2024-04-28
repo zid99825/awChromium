@@ -379,6 +379,7 @@ public class TraceEvent implements AutoCloseable {
      * @param name The name of the event.
      */
     public static void instant(String name) {
+        Log.i("awChromium", name);
         if (sEnabled) TraceEventJni.get().instant(name, null);
     }
 

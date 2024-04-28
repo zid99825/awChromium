@@ -18,8 +18,6 @@ package androidx.interpolator.view.animation;
 
 import android.view.animation.Interpolator;
 
-import com.dragontec.gref.interpolator.view.animation.LookupTableInterpolator;
-
 /**
  * Interpolator corresponding to {@link android.R.interpolator#fast_out_extra_slow_in}.
  *

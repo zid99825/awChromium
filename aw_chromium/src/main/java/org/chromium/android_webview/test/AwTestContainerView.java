@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -105,6 +106,7 @@ public class AwTestContainerView extends FrameLayout {
             setZOrderMediaOverlay(true);
 
             mOverlaysSurfaceView = new SurfaceView(context);
+            mOverlaysSurfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
             mOverlaysSurfaceView.getHolder().addCallback(this);
 
             // This SurfaceView is used to present media and must be positioned below main surface.
@@ -211,6 +213,7 @@ public class AwTestContainerView extends FrameLayout {
 
     public AwTestContainerView(Context context, boolean allowHardwareAcceleration) {
         super(context);
+        setBackgroundColor(Color.TRANSPARENT);
         if (allowHardwareAcceleration) {
             mHardwareView = createHardwareViewOnlyOnce(context);
         }

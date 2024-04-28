@@ -18,6 +18,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import org.chromium.android_webview.common.Lifetime;
+import org.chromium.android_webview.R;
 import org.chromium.base.PackageManagerUtils;
 import org.chromium.base.metrics.RecordUserAction;
 import org.chromium.content_public.browser.ActionModeCallback;

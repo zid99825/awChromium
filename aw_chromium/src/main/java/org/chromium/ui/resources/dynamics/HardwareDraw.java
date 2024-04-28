@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.dynamics;
+package org.chromium.android_webview.shell.Resources.dynamics;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -27,7 +27,7 @@ import org.chromium.base.TraceEvent;
 import org.chromium.base.task.PostTask;
 import org.chromium.base.task.SequencedTaskRunner;
 import org.chromium.base.task.TaskTraits;
-import org.chromium.ui.resources.dynamics.ViewResourceAdapter.CaptureMechanism;
+import org.chromium.android_webview.shell.Resources.dynamics.ViewResourceAdapter.CaptureMechanism;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

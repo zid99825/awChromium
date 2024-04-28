@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.dynamics;
+package org.chromium.android_webview.shell.Resources.dynamics;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -18,8 +18,8 @@ import org.chromium.base.Callback;
 import org.chromium.base.ObserverList;
 import org.chromium.base.ThreadUtils;
 import org.chromium.base.TraceEvent;
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.ResourceFactory;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.ResourceFactory;
 
 /**
  * An adapter that exposes a {@link View} as a {@link DynamicResourceSnapshot}. In order to properly

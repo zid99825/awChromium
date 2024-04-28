@@ -2561,10 +2561,10 @@ public class AwContents implements SmartClipProvider {
         } else if (!mContentsClient.isCachedRendererBackgroundColorValid()) {
             // In force dark mode or the dark style preferred , if background color not set,
             // this cause a white flash, just show black background.
-            if ((mSettings.isForceDarkApplied() || mSettings.prefersDarkFromTheme())
-                    && !mDidInitBackground) {
-                return Color.BLACK;
-            }
+//            if ((mSettings.isForceDarkApplied() || mSettings.prefersDarkFromTheme())
+//                    && !mDidInitBackground) {
+//                return Color.BLACK;
+//            }
             return mBaseBackgroundColor;
         }
         return mContentsClient.getCachedRendererBackgroundColor();

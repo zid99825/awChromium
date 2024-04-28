@@ -2,18 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources.dynamics;
+package org.chromium.android_webview.shell.Resources.dynamics;
 
 import android.util.SparseArray;
 
 import org.chromium.base.Callback;
-import org.chromium.ui.resources.Resource;
-import org.chromium.ui.resources.ResourceLoader;
+import org.chromium.android_webview.shell.Resources.Resource;
+import org.chromium.android_webview.shell.Resources.ResourceLoader;
 
 /**
  * Handles managing dynamic resources. Because {@link DynamicResource} decide when they are dirty
  * and should return a loaded resource, this class mostly just passes through notifications when
- * render frames are happening, and hands the captured {@link org.chromium.ui.resources.Resource}
+ * render frames are happening, and hands the captured {@link org.chromium.android_webview.shell.Resources.Resource}
  * back in our {@link ResourceLoaderCallback}.
  */
 public class DynamicResourceLoader extends ResourceLoader {

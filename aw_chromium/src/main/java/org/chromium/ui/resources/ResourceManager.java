@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.ui.resources;
+package org.chromium.android_webview.shell.Resources;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,11 +15,11 @@ import org.jni_zero.NativeMethods;
 
 import org.chromium.ui.base.WindowAndroid;
 import org.chromium.ui.display.DisplayAndroid;
-import org.chromium.ui.resources.ResourceLoader.ResourceLoaderCallback;
-import org.chromium.ui.resources.dynamics.BitmapDynamicResource;
-import org.chromium.ui.resources.dynamics.DynamicResourceLoader;
-import org.chromium.ui.resources.statics.StaticResourceLoader;
-import org.chromium.ui.resources.system.SystemResourceLoader;
+import org.chromium.android_webview.shell.Resources.ResourceLoader.ResourceLoaderCallback;
+import org.chromium.android_webview.shell.Resources.dynamics.BitmapDynamicResource;
+import org.chromium.android_webview.shell.Resources.dynamics.DynamicResourceLoader;
+import org.chromium.android_webview.shell.Resources.statics.StaticResourceLoader;
+import org.chromium.android_webview.shell.Resources.system.SystemResourceLoader;
 
 /**
  * The Java component of a manager for all static resources to be loaded and used by CC layers.
