@@ -53,10 +53,11 @@ open class AwWebView(context: Context) : AwTestContainerView(context, false) {
         private const val TAG = "AwWebView"
 
         private var isInited = false
-        private val awDevToolsServer = AwDevToolsServer()
+        private lateinit var awDevToolsServer:AwDevToolsServer
+        private var remoteDebuggingEnable = false
+
         fun initialize(context: Context) {
             if (!isInited) {
-                isInited = true
                 ContextUtils.initApplicationContext(context.applicationContext)
                 PathUtils.setPrivateDataDirectorySuffix("webview", "WebView")
                 CommandLine.initFromFile("/data/local/tmp/android-webview-command-line")
@@ -73,19 +74,31 @@ open class AwWebView(context: Context) : AwTestContainerView(context, false) {
                 AwBrowserProcess.loadLibrary(null)
                 AwBrowserProcess.start()
                 installDrawFnFunctionTable(false)
+                awDevToolsServer = AwDevToolsServer()
+                awDevToolsServer.setRemoteDebuggingEnabled(remoteDebuggingEnable)
+                isInited = true
             }
         }
 
         fun clearClientCertPreferences(onCleared: Runnable) {
-            AwContentsStatics.clearClientCertPreferences(onCleared)
+            if (isInited) {
+                AwContentsStatics.clearClientCertPreferences(onCleared)
+            }
         }
 
-        fun getSafeBrowsingPrivacyPolicyUrl(): Uri {
-            return AwContentsStatics.getSafeBrowsingPrivacyPolicyUrl()
+        fun getSafeBrowsingPrivacyPolicyUrl(): Uri? {
+            return if (isInited) {
+                AwContentsStatics.getSafeBrowsingPrivacyPolicyUrl()
+            } else {
+                null
+            }
         }
 
         fun setRemoteDebuggingEnabled(enable: Boolean) {
-            awDevToolsServer.setRemoteDebuggingEnabled(enable)
+            remoteDebuggingEnable = enable
+            if (isInited) {
+                awDevToolsServer.setRemoteDebuggingEnabled(enable)
+            }
         }
     }
 
@@ -568,7 +581,7 @@ open class AwWebView(context: Context) : AwTestContainerView(context, false) {
         awContents?.documentHasImages(message)
     }
 
-    open fun evaluateJavascript(script: String, resultCallback: Callback<String>) {
+    open fun evaluateJavascript(script: String, resultCallback: Callback<String>?) {
         awContents?.evaluateJavaScript(script, resultCallback)
     }
 

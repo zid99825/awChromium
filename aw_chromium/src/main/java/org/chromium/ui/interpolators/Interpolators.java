@@ -11,10 +11,10 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import androidx.core.view.animation.PathInterpolatorCompat;
-import androidx.interpolator.view.animation.FastOutExtraSlowInInterpolator;
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
+import com.dragontec.interpolator.view.animation.FastOutExtraSlowInInterpolator;
+import com.dragontec.interpolator.view.animation.FastOutLinearInInterpolator;
+import com.dragontec.interpolator.view.animation.FastOutSlowInInterpolator;
+import com.dragontec.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 /** Reference to one of each standard interpolator to avoid allocations. */
 public class Interpolators {
